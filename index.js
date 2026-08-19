@@ -8,7 +8,7 @@ app.use(express.json())
 app.use(cors())
 
 app.get("/", (request, response) => {
-    const selectCommand = "SELECT * FROM correcao_MarcioMarcal"
+    const selectCommand = "SELECT * FROM filmes_MatheusOliveiraNathanArchanjo"
 
     database.query(selectCommand, (error, data) => {
         if (error) {
@@ -22,7 +22,7 @@ app.get("/", (request, response) => {
 app.post("/create", (request, response) => {
     const { title, gender, ageLimit, duration } = request.body
 
-    const insertCommand = "INSERT INTO correcao_MarcioMarcal(title, gender, ageLimit, duration) VALUES (?, ?, ?, ?)"
+    const insertCommand = "INSERT INTO filmes_MatheusOliveiraNathanArchanjo(title, gender, ageLimit, duration) VALUES (?, ?, ?, ?)"
 
     database.query(insertCommand, [title, gender, ageLimit, duration], (error) => {
         if (error) {
@@ -38,7 +38,7 @@ app.post("/create", (request, response) => {
 app.delete("/delete/:id", (request, response) => {
     const { id } = request.params
 
-    const deleteCommand = "DELETE FROM correcao_MarcioMarcal WHERE id=?"
+    const deleteCommand = "DELETE FROM filmes_MatheusOliveiraNathanArchanjo WHERE id=?"
 
     database.query(deleteCommand, [id], (error) => {
         if (error) {
@@ -55,7 +55,7 @@ app.put("/update/:id", (request, response) => {
     const { id } = request.params
     const { title, gender, ageLimit, duration } = request.body
 
-    const updateCommand = "UPDATE correcao_MarcioMarcal SET title = ?, gender = ?, ageLimit = ?, duration = ? WHERE id = ?"
+    const updateCommand = "UPDATE filmes_MatheusOliveiraNathanArchanjo SET title = ?, gender = ?, ageLimit = ?, duration = ? WHERE id = ?"
 
     database.query(updateCommand, [title, gender, ageLimit, duration, id], (error) => {
         if (error) {
