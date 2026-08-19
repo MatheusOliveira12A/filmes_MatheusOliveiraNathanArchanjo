@@ -8,9 +8,9 @@ POST http://localhost:3000/filmes
 Content-Type: application/json
 
 {
-    "title": "Spider-Man: Across the Spider-Verse",
+    "title": "Fast and Furious 7",
     "genre": "Animation",
-    "duration": 140,
+    "duration": 120,
     "age_rating": "10"
 }
 
@@ -28,4 +28,4 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/filmes/12"!""
+DELETE http://localhost:3000/filmes/12"!

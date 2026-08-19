@@ -1,85 +1,81 @@
-import express from 'express';
-import mysql2 from 'mysql2';
+import express from "express"
+import mysql2 from "mysql2"
+import cors from "cors"
 
-const app = express();
-app.use(express.json());
+const app = express()
 
-const tableName = 'filmes_MatheusOliveiraNathanArchanjo';
+app.use(express.json())
+app.use(cors())
 
-const db = mysql2.createPool({
+app.get("/", (request, response) => {
+    const selectCommand = "SELECT * FROM correcao_MarcioMarcal"
+
+    database.query(selectCommand, (error, data) => {
+        if (error) {
+            console.log(error)
+        } else {
+            response.json(data)
+        }
+    })
+})
+
+app.post("/create", (request, response) => {
+    const { title, gender, ageLimit, duration } = request.body
+
+    const insertCommand = "INSERT INTO correcao_MarcioMarcal(title, gender, ageLimit, duration) VALUES (?, ?, ?, ?)"
+
+    database.query(insertCommand, [title, gender, ageLimit, duration], (error) => {
+        if (error) {
+            console.log(error)
+        } else {
+            response.status(201).json({
+                message: "Filme cadastrado com sucesso!"
+            })
+        }
+    })
+})
+
+app.delete("/delete/:id", (request, response) => {
+    const { id } = request.params
+
+    const deleteCommand = "DELETE FROM correcao_MarcioMarcal WHERE id=?"
+
+    database.query(deleteCommand, [id], (error) => {
+        if (error) {
+            console.log(error)
+        } else {
+            response.json({
+                message: "Filme apagado com sucesso!"
+            })
+        }
+    })
+})
+
+app.put("/update/:id", (request, response) => {
+    const { id } = request.params
+    const { title, gender, ageLimit, duration } = request.body
+
+    const updateCommand = "UPDATE correcao_MarcioMarcal SET title = ?, gender = ?, ageLimit = ?, duration = ? WHERE id = ?"
+
+    database.query(updateCommand, [title, gender, ageLimit, duration, id], (error) => {
+        if (error) {
+            console.log(error)
+        } else {
+            response.json({
+                message: "Filme editado com sucesso!"
+            })
+        }
+    })
+})
+
+
+const database = mysql2.createPool({
     host: "benserverplex.ddns.net",
     user: "alunos",
     password: "senhaAlunos",
     database: "alunos_filmes03MC"
 })
 
-
-app.post('/filmes', function (req, res) {
-    const title = req.body.title;
-    const genre = req.body.genre;
-    const duration = req.body.duration;
-    const age_rating = req.body.age_rating;
-
-    const query = 'INSERT INTO ' + tableName + ' (title, genre, duration, age_rating) VALUES (?, ?, ?, ?)';
-
-    db.query(query, [title, genre, duration, age_rating], function (err, result) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.status(201).json({ message: 'Filme adicionado com sucesso!', id: result.insertId });
-    });
-});
-
-
-app.get('/filmes', function (req, res) {
-    const query = 'SELECT * FROM ' + tableName;
-
-    db.query(query, function (err, results) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.status(200).json(results);
-    });
-});
-
-
-app.put('/filmes/:id', function (req, res) {
-    const id = req.params.id;
-    const title = req.body.title;
-    const genre = req.body.genre;
-    const duration = req.body.duration;
-    const age_rating = req.body.age_rating;
-
-    const query = 'UPDATE ' + tableName + ' SET title = ?, genre = ?, duration = ?, age_rating = ? WHERE id = ?';
-
-    db.query(query, [title, genre, duration, age_rating, id], function (err, result) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Filme não encontrado.' });
-        }
-        res.status(200).json({ message: 'Filme atualizado com sucesso!' });
-    });
-});
-
-
-app.delete('/filmes/:id', function (req, res) {
-    const id = req.params.id;
-    const query = 'DELETE FROM ' + tableName + ' WHERE id = ?';
-
-    db.query(query, [id], function (err, result) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Filme não encontrado.' });
-        }
-        res.status(200).json({ message: 'Filme deletado com sucesso!' });
-    });
-});
-
-const PORT = 3000;
-app.listen(PORT, function () {
-    console.log('Servidor rodando na porta ' + PORT + ' - http://localhost:' + PORT);
-});
+app.listen(3333, () => {
+    console.log("Servidor online")
+})
