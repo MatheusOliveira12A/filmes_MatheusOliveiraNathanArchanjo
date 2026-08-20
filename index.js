@@ -7,7 +7,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-app.get("/", (request, response) => {
+app.get("/filmes", (request, response) => {
     const selectCommand = "SELECT * FROM filmes_MatheusOliveiraNathanArchanjo"
 
     database.query(selectCommand, (error, data) => {
@@ -19,7 +19,7 @@ app.get("/", (request, response) => {
     })
 })
 
-app.post("/create", (request, response) => {
+app.post("/filmes", (request, response) => {
     const { title, gender, ageLimit, duration } = request.body
 
     const insertCommand = "INSERT INTO filmes_MatheusOliveiraNathanArchanjo(title, gender, ageLimit, duration) VALUES (?, ?, ?, ?)"
@@ -35,7 +35,7 @@ app.post("/create", (request, response) => {
     })
 })
 
-app.delete("/delete/:id", (request, response) => {
+app.delete("/filmes/:id", (request, response) => {
     const { id } = request.params
 
     const deleteCommand = "DELETE FROM filmes_MatheusOliveiraNathanArchanjo WHERE id=?"
@@ -51,7 +51,7 @@ app.delete("/delete/:id", (request, response) => {
     })
 })
 
-app.put("/update/:id", (request, response) => {
+app.put("/filmes/:id", (request, response) => {
     const { id } = request.params
     const { title, gender, ageLimit, duration } = request.body
 
