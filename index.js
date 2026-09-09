@@ -7,7 +7,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-app.get("/filmes", (request, response) => {
+app.get("/", (request, response) => {
     const selectCommand = "SELECT * FROM filmes_MatheusOliveiraNathanArchanjo"
 
     database.query(selectCommand, (error, data) => {
@@ -19,7 +19,7 @@ app.get("/filmes", (request, response) => {
     })
 })
 
-app.post("/filmes", (request, response) => {
+app.post("/", (request, response) => {
     const { title, gender, ageLimit, duration } = request.body
 
     const insertCommand = "INSERT INTO filmes_MatheusOliveiraNathanArchanjo(title, gender, ageLimit, duration) VALUES (?, ?, ?, ?)"
